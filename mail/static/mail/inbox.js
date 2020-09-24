@@ -6,18 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
   
-
-                      // PROBLEM: this isnt working: 
-                      // UDTATE:
-                      // I think the problem is cache not being cleared...
-                      // I tried changing:
-                      // "document.querySelector('#inbox').addEventListener('click', () => load_mailbox('inbox'));"
-                      // to use load_mailbox('sent'), but clicking inbox still made the screen say inbox, instead of sent.
-
-                      
-  document.querySelector('#submit-botton').addEventListener('click', function () {
-    alert('Hello, world!');
-  });
+  // Submit botton for composing email
+  document.querySelector('#submit-botton').addEventListener('click', sendForm);
 
   // By default, load the inbox
   load_mailbox('inbox');
@@ -45,6 +35,10 @@ function load_mailbox(mailbox) {
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 }
 
+//                    Problems: 
+//                    - redirected to inbox after clicking submit on compose page.
+//                    = ? in url after submitting.
+
 function sendForm() {
   fetch('/emails', {
     method: 'POST',
@@ -55,21 +49,16 @@ function sendForm() {
     })
   })
     .then(response => response.json())
-    .then(result => {
-      load_mailbox('sent');
-      //var statusCode = response.status;
+    .then(result => {      
+      var statusCode = response.status;
 
       // If success:
-      //if (statusCode === 201) {
-        //load_mailbox('sent');
-      //} 
+      if (statusCode === 201) {
+        load_mailbox('sent');
+      } 
       // If error:
-      //else {
-        //document.querySelector('#error-view').innerHTML = result;
-      //}      
+      else {
+        document.querySelector('#error-view').innerHTML = result;
+      }      
     });
-}
-
-function testing() {
-  alert('Hello, world!');
 }
