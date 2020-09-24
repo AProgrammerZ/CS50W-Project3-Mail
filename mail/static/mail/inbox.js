@@ -38,6 +38,8 @@ function load_mailbox(mailbox) {
 //                    Problems: 
 //                    - redirected to inbox after clicking submit on compose page.
 //                    = ? in url after submitting.
+                   
+//                    Check terminal results after submitting
 
 function sendForm() {
   fetch('/emails', {
