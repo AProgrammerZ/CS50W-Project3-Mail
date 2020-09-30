@@ -7,7 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#compose').addEventListener('click', compose_email);
   
   // Submit botton for composing email
-  document.querySelector('#submit-botton').addEventListener('click', send_form);
+    // document.querySelector('#submit-botton').addEventListener('click', send_form);
+  const element = document.querySelector('form');
+  element.addEventListener('submit', event => {
+    event.preventDefault();
+    send_form();
+  });
 
   // By default, load the inbox
   load_mailbox('inbox');
@@ -51,16 +56,13 @@ function send_form() {
     })
   })
     .then(response => response.json())
-    .then(result => {      
+    .then(result => {
       var statusCode = response.status;
-
-      // If success:
-      if (statusCode === 201) {
-        load_mailbox('sent');
-      } 
+      
       // If error:
-      else {
+      if (statusCode !== 201) {
         document.querySelector('#error-view').innerHTML = result;
-      }      
+      }       
     });
+  load_mailbox('sent');   
 }
