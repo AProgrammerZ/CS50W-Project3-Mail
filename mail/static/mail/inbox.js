@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#compose').addEventListener('click', compose_email);
   
   // Submit botton for composing email
-  document.querySelector('#submit-botton').addEventListener('click', sendForm);
+  document.querySelector('#submit-botton').addEventListener('click', send_form);
 
   // By default, load the inbox
   load_mailbox('inbox');
@@ -41,7 +41,7 @@ function load_mailbox(mailbox) {
                    
 //                    Check terminal results after submitting
 
-function sendForm() {
+function send_form() {
   fetch('/emails', {
     method: 'POST',
     body: JSON.stringify({
