@@ -55,14 +55,22 @@ function send_form() {
       body: document.forms["compose-form"]["compose-body"].value
     })
   })
-    .then(response => response.json())
-    .then(result => {
+    .then(response => {
       var statusCode = response.status;
-      
+
       // If error:
       if (statusCode !== 201) {
-        document.querySelector('#error-view').innerHTML = result;
-      }       
+        document.querySelector('#emails-view').style.display = 'block';
+        document.querySelector('#compose-view').style.display = 'none';
+        document.querySelector('#emails-view').innerHTML = `<h3>Error detected</h3>`;
+        // document.querySelector('#error-view').innerHTML = result;
+        return false;
+      }   
+      
+      return response.json()
+    })    
+    .then(result => {
+      console.log(result);
     });
-  load_mailbox('sent');   
+  // load_mailbox('sent');   
 }
