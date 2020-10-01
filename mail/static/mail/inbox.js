@@ -38,13 +38,7 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
-}
-
-//                    Problems: 
-//                    - redirected to inbox after clicking submit on compose page.
-//                    = ? in url after submitting.
-                   
-//                    Check terminal results after submitting
+}                   
 
 function send_form() {
   fetch('/emails', {
@@ -55,22 +49,16 @@ function send_form() {
       body: document.forms["compose-form"]["compose-body"].value
     })
   })
-    .then(response => {
-      var statusCode = response.status;
-
-      // If error:
-      if (statusCode !== 201) {
-        document.querySelector('#emails-view').style.display = 'block';
-        document.querySelector('#compose-view').style.display = 'none';
-        document.querySelector('#emails-view').innerHTML = `<h3>Error detected</h3>`;
-        // document.querySelector('#error-view').innerHTML = result;
-        return false;
-      }   
-      
-      return response.json()
-    })    
+    .then(response => response.json())  
     .then(result => {
-      console.log(result);
-    });
-  // load_mailbox('sent');   
+      for (var message_type in result) { 
+        message = result[message_type]
+        alert(message);
+
+        // If email was sent successfully
+        if (message_type === "message") {
+          load_mailbox('sent');      
+        }        
+      }
+    });  
 }
