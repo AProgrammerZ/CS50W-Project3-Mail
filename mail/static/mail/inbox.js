@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#compose').addEventListener('click', compose_email);
   
   // Submit botton for composing email
-    // document.querySelector('#submit-botton').addEventListener('click', send_form);
+    // document.querySelector('#submit-botton').addEventListener('click', send_mail);
   const element = document.querySelector('form');
   element.addEventListener('submit', event => {
     event.preventDefault();
-    send_form();
+    send_mail();
   });
 
   // By default, load the inbox
@@ -40,7 +40,7 @@ function load_mailbox(mailbox) {
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 }                   
 
-function send_form() {
+function send_mail() {
   fetch('/emails', {
     method: 'POST',
     body: JSON.stringify({
