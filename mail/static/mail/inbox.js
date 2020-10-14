@@ -43,14 +43,15 @@ function load_mailbox(mailbox) {
     .then(response => response.json())
     .then(emails => {
       emails.forEach(email => {
-        const element = document.createElement('div');
+        const email_box = document.createElement('div');
+        email_box.id = "email_box"
         // fix html and css of the following line
-        element.innerHTML = `${email.sender}  ${email.subject}  ${email.timestamp}`;
-        element.addEventListener('click', function () {
+        email_box.innerHTML = `${email.sender}  ${email.subject}  ${email.timestamp}`;
+        email_box.addEventListener('click', function () {
           console.log('This element has been clicked!')
           // eventually, add code here to redirect to this email
         });
-        document.querySelector('#emails-view').append(element);
+        document.querySelector('#emails-view').append(email_box);
       })
     });
 }                   
