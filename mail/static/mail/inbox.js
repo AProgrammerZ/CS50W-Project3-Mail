@@ -42,10 +42,16 @@ function load_mailbox(mailbox) {
   fetch(`/emails/${mailbox}`)
     .then(response => response.json())
     .then(emails => {
-      // Print emails
-      console.log(emails);
-
-      // ... do something else with emails ...
+      emails.forEach(email => {
+        const element = document.createElement('div');
+        // fix html and css of the following line
+        element.innerHTML = `${email.sender}  ${email.subject}  ${email.timestamp}`;
+        element.addEventListener('click', function () {
+          console.log('This element has been clicked!')
+          // eventually, add code here to redirect to this email
+        });
+        document.querySelector('#emails-view').append(element);
+      })
     });
 }                   
 
