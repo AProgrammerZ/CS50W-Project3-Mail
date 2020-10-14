@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#compose').addEventListener('click', compose_email);
   
   // Submit botton for composing email
-    // document.querySelector('#submit-botton').addEventListener('click', send_mail);
   const element = document.querySelector('form');
   element.addEventListener('submit', event => {
     event.preventDefault();
@@ -38,6 +37,16 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+
+  // Get emails
+  fetch(`/emails/${mailbox}`)
+    .then(response => response.json())
+    .then(emails => {
+      // Print emails
+      console.log(emails);
+
+      // ... do something else with emails ...
+    });
 }                   
 
 function send_mail() {
