@@ -43,10 +43,24 @@ function load_mailbox(mailbox) {
     .then(response => response.json())
     .then(emails => {
       emails.forEach(email => {
-        const email_box = document.createElement('div');
-        email_box.id = "email_box"
-        // fix html and css of the following line
-        email_box.innerHTML = `${email.sender}  ${email.subject}  ${email.timestamp}`;
+
+                  // fix html and css of the following
+                  // to match spec picture
+
+        let email_box = document.createElement('div');
+        email_box.className = "email_box"
+                    
+        let sender = document.createElement('div');
+        sender.innerHTML = email.sender;
+        sender.id = "sender";
+        let subject = document.createElement('div');
+        subject.innerHTML = email.subject;
+        subject.id = "subject";
+        let timestamp = document.createElement('div');
+        timestamp.innerHTML = email.timestamp;
+        timestamp.id = "timestamp";
+
+        email_box.append(sender, subject, timestamp);
         email_box.addEventListener('click', function () {
           console.log('This element has been clicked!')
           // eventually, add code here to redirect to this email

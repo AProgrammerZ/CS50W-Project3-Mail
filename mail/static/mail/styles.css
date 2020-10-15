@@ -2,7 +2,10 @@ textarea {
     min-height: 400px;
 }
 
-#email_box {
+.email_box {
+    display: flex;
+    justify-content: space-around;
+    
     border-style: solid;
     border-radius: 5px;
 }
