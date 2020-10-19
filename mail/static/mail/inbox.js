@@ -39,14 +39,18 @@ function load_mailbox(mailbox) {
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
   // Get emails
+  get_emails(mailbox);
+}                   
+
+function get_emails(mailbox) {
   fetch(`/emails/${mailbox}`)
     .then(response => response.json())
     .then(emails => {
-      emails.forEach(email => {                  
+      emails.forEach(email => {
 
         let email_box = document.createElement('div');
         email_box.className = "email_box";
-                    
+
         let sender = document.createElement('div');
         sender.innerHTML = email.sender;
         sender.className = "sender";
@@ -59,13 +63,17 @@ function load_mailbox(mailbox) {
 
         email_box.append(sender, subject, timestamp);
         email_box.addEventListener('click', function () {
-          console.log('This element has been clicked!');
           // eventually, add code here to redirect to this email
+          view_email(email.id);
         });
         document.querySelector('#emails-view').append(email_box);
       })
     });
-}                   
+}
+
+function view_email(email_id) {
+
+}
 
 function send_mail() {
   fetch('/emails', {
