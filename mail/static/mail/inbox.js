@@ -42,10 +42,7 @@ function load_mailbox(mailbox) {
   fetch(`/emails/${mailbox}`)
     .then(response => response.json())
     .then(emails => {
-      emails.forEach(email => {
-
-                  // fix html and css of the following
-                  // to match spec picture
+      emails.forEach(email => {                  
 
         let email_box = document.createElement('div');
         email_box.className = "email_box";
