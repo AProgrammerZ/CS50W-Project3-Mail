@@ -48,21 +48,21 @@ function load_mailbox(mailbox) {
                   // to match spec picture
 
         let email_box = document.createElement('div');
-        email_box.className = "email_box"
+        email_box.className = "email_box";
                     
         let sender = document.createElement('div');
         sender.innerHTML = email.sender;
-        sender.id = "sender";
+        sender.className = "sender";
         let subject = document.createElement('div');
         subject.innerHTML = email.subject;
-        subject.id = "subject";
+        subject.className = "subject";
         let timestamp = document.createElement('div');
         timestamp.innerHTML = email.timestamp;
-        timestamp.id = "timestamp";
+        timestamp.className = "timestamp";
 
         email_box.append(sender, subject, timestamp);
         email_box.addEventListener('click', function () {
-          console.log('This element has been clicked!')
+          console.log('This element has been clicked!');
           // eventually, add code here to redirect to this email
         });
         document.querySelector('#emails-view').append(email_box);
