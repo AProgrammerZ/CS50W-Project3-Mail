@@ -52,7 +52,6 @@ function get_emails(mailbox) {
     .then(response => response.json())
     .then(emails => {
       emails.forEach(email => {
-        console.log(email);
 
         let email_box = document.createElement('div');
         email_box.className = "email_box";
@@ -69,7 +68,7 @@ function get_emails(mailbox) {
 
         email_box.append(sender, subject, timestamp);
         email_box.addEventListener('click', function () {
-          view_email(email.id);
+          view_email(email.id, mailbox);
           mark_read(email.id);
         });
 
@@ -82,7 +81,7 @@ function get_emails(mailbox) {
     });
 }
 
-function view_email(email_id) {
+function view_email(email_id, mailbox) {
   // Show this email's view and hide other views
   document.querySelector('#view-email-view').style.display = 'block';
   document.querySelector('#emails-view').style.display = 'none';
@@ -105,6 +104,29 @@ function view_email(email_id) {
       let reply_button = document.createElement("button");
       reply_button.innerHTML = "Reply";
       email_info.append(reply_button);
+
+      if (mailbox === "inbox") {
+        let archive_button = document.createElement("button");
+        archive_button.innerHTML = "Archive";        
+
+        archive_button.addEventListener('click', function () {                    
+          mark_archived_or_unarchived(email_id, true);          
+          load_mailbox('inbox');
+        });   
+
+        email_info.append(archive_button);
+      }
+      if (mailbox === "archive") {
+        let archive_button = document.createElement("button");
+        archive_button.innerHTML = "Unarchive";
+
+        archive_button.addEventListener('click', function () {
+          mark_archived_or_unarchived(email_id, false);
+          load_mailbox('inbox');
+        });
+
+        email_info.append(archive_button);
+      }
 
       email_info.append(document.createElement("br"));
       email_info.append(document.createElement("br"));
@@ -145,4 +167,19 @@ function mark_read(email_id) {
       read: true
     })
   })
+}
+
+function mark_archived_or_unarchived(email_id, t_or_f) {
+  fetch(`/emails/${email_id}`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      archived: t_or_f
+    })
+  })
+  if (t_or_f) {
+    alert("Email archived successfully.");
+  }
+  else {
+    alert("Email unarchived successfully.")
+  }  
 }
