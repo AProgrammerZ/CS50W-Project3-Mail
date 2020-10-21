@@ -30,6 +30,25 @@ function compose_email() {
   document.querySelector('#compose-body').value = '';
 }
 
+function reply_to_email(recipient, subject, timestamp, body) {
+
+  // Show compose view and hide other views
+  document.querySelector('#compose-view').style.display = 'block';
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#view-email-view').style.display = 'none';
+
+  // Clear out composition fields
+  document.querySelector('#compose-recipients').value = recipient;
+  if (subject.slice(0, 3) === "Re:") {
+    document.querySelector('#compose-subject').value += subject;  
+  }
+  else {
+    document.querySelector('#compose-subject').value = `Re: ${subject}`;
+  }
+  document.querySelector('#compose-body').value = 
+    `On ${timestamp} ${recipient} wrote: \n ${body} `;
+}
+
 function load_mailbox(mailbox) {
   
   // Show the mailbox and hide other views
@@ -52,7 +71,6 @@ function get_emails(mailbox) {
     .then(response => response.json())
     .then(emails => {
       emails.forEach(email => {
-
         let email_box = document.createElement('div');
         email_box.className = "email_box";
 
@@ -103,6 +121,9 @@ function view_email(email_id, mailbox) {
       
       let reply_button = document.createElement("button");
       reply_button.innerHTML = "Reply";
+      reply_button.addEventListener('click', function () {
+        reply_to_email(email.sender, email.subject, email.timestamp, email.body);
+      });
       email_info.append(reply_button);
 
       if (mailbox === "inbox") {
