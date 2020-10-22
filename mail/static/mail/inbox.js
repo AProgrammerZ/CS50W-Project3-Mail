@@ -39,12 +39,12 @@ function reply_to_email(recipients, original_recipients, subject, timestamp, bod
 
   // Pre-fill composition fields
   document.querySelector('#compose-body').value =
-    `On ${timestamp} ${recipients} wrote: \n ${body} `;
+    `\n\nOn ${timestamp} ${recipients} wrote: \n ${body}`;
   let replyer = document.querySelector('#compose-sender').value
   if (replyer === recipients) {
     recipients = original_recipients;
     document.querySelector('#compose-body').value =
-      `On ${timestamp} ${replyer} wrote: \n ${body} `;
+      `\n\nOn ${timestamp} ${replyer} wrote: \n ${body}`;
   }
     document.querySelector('#compose-recipients').value = recipients;
   if (subject.slice(0, 3) === "Re:") {
@@ -135,7 +135,6 @@ function view_email(email_id, mailbox) {
       if (mailbox === "inbox") {
         let archive_button = document.createElement("button");
         archive_button.innerHTML = "Archive";        
-
         archive_button.addEventListener('click', function () {                    
           mark_archived_or_unarchived(email_id, true);          
           load_mailbox('inbox');
@@ -146,7 +145,6 @@ function view_email(email_id, mailbox) {
       if (mailbox === "archive") {
         let archive_button = document.createElement("button");
         archive_button.innerHTML = "Unarchive";
-
         archive_button.addEventListener('click', function () {
           mark_archived_or_unarchived(email_id, false);
           load_mailbox('inbox');
@@ -161,6 +159,7 @@ function view_email(email_id, mailbox) {
 
       document.querySelector('#view-email-view').append(email_info);
       document.querySelector('#view-email-view').append(email.body);
+      document.querySelector('#view-email-view').style.whiteSpace = "pre-line";
     });
 }
 
